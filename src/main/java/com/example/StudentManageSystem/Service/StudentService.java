@@ -68,9 +68,12 @@ public class StudentService {
     }
 
 
-    public StudentInfo getCollege(){
+    public StudentInfo getStudent(){
         String token = request.getHeader("Token_id");
         String userId = TokenUtil.findUserNameByToken(token);
+        if (studentInfoDao.getByStudentId(userId).size() == 0) {
+            return null;
+        }
         return  studentInfoDao.getByStudentId(userId).get(0);
     }
 

@@ -7,8 +7,7 @@ import com.example.StudentManageSystem.pojo.StudentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public class CourseService {
@@ -35,20 +34,27 @@ public class CourseService {
     }
 
     public Response findCourseByCourseName(String courseName){
-        if (!checkCourseIsNull(courseName)){
-            return Response.fail("未查询到该课程");
-        }
+//        if (!checkCourseIsNull(courseName)){
+//            return Response.fail("未查询到该课程");
+//        }
         return Response.success(courseDao.findByCourseNameLike(courseName));
     }
 
 //    验证是否有该课程
     private boolean  checkCourseIsNull(String courseName){
-        return courseDao.findByCourseId(courseName) != null;
+        return courseDao.findByCourseName(courseName) != null;
     }
 
 //    查询该学院课程表
     public Response getCourseByCollege(){
-        StudentInfo studentInfo = studentService.getCollege();
+        StudentInfo studentInfo = studentService.getStudent();
+        if (studentInfo == null){
+            return Response.success(getAllCourse());
+        }
         return Response.success(courseDao.getCourseByCollege(studentInfo.getCollage()));
+    }
+    private List<Course> getAllCourse(){
+        System.out.println(courseDao.findAll());
+        return courseDao.findAll();
     }
 }

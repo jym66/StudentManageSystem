@@ -1,5 +1,6 @@
 package com.example.StudentManageSystem.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Course {
 
 //    @NotNull(message = "开设时间不能为空")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "time")
     private Date time;
 

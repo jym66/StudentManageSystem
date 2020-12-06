@@ -7,12 +7,15 @@ import com.example.StudentManageSystem.Util.MD5Util;
 import com.example.StudentManageSystem.Util.TokenUtil;
 import com.example.StudentManageSystem.pojo.LoginInfo;
 import com.example.StudentManageSystem.pojo.Response;
+import com.example.StudentManageSystem.pojo.StudentInfo;
+import com.example.StudentManageSystem.pojo.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -31,9 +34,11 @@ public class LoginService {
     private TeacherDao teacherDao;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Resource
+    private HttpServletRequest httpServletRequest;
 
     private  final int Admin = 3;
-
+    private  final String defaultPassword = "12345678";
     //    添加用户
     public void addUser(String username,String password,int userType){
         loginInfoDao.addUser(username,password,userType);
@@ -57,12 +62,18 @@ public class LoginService {
         }
         if (findStudentIdByLoginInfo(loginInfo.getUsername())){
             int student = 1;
-            addUser(loginInfo.getUsername(),MD5Util.getMD5("12345678"), student);
+            if (!Objects.equals(loginInfo.getPassword(), defaultPassword)){
+                return Response.fail(403,"账号密码错误");
+            }
+            addUser(loginInfo.getUsername(),MD5Util.getMD5(defaultPassword), student);
             return checkLoginInfo(loginInfo);
         }
         if (findTeacherIdByLoginInfo(loginInfo.getUsername())){
             int teacher = 2;
-            addUser(loginInfo.getUsername(),MD5Util.getMD5("12345678"), teacher);
+            if (!Objects.equals(loginInfo.getPassword(), defaultPassword)){
+                return Response.fail(403,"账号密码错误");
+            }
+            addUser(loginInfo.getUsername(),MD5Util.getMD5(defaultPassword), teacher);
             return checkLoginInfo(loginInfo);
         }
         return Response.fail(403,"账号密码错误");
@@ -81,10 +92,14 @@ public class LoginService {
         redisTemplate.delete(TokenUtil.findUserNameByToken(token));
     }
 //    管理员直接修改密码
-    public Response forgetPassword(String userName,String NewPassword) {
-        System.out.println(userName);
+    public Response forgetPassword(String NewPassword) {
+        String token = httpServletRequest.getHeader("token_id");
+        if (token == null){
+            return Response.fail("修改失败,请联系管理员");
+        }
+        String username = TokenUtil.findUserNameByToken(token);
         String Md5NewPassword = MD5Util.getMD5(NewPassword);
-        loginInfoDao.updatePassword(Md5NewPassword,userName);
+        loginInfoDao.updatePassword(Md5NewPassword,username);
         return Response.success("成功");
     }
 
@@ -102,7 +117,18 @@ public class LoginService {
         loginInfoDao.deleteByUsername(username);
     }
 
-
-
+    public Response getSelfInfo(){
+        String AUTH = request.getHeader("Token_id");
+        String userName = TokenUtil.findUserNameByToken(AUTH);
+        List<StudentInfo> studentInfo = studentInfoDao.getByStudentId(userName);
+        if (studentInfo.size() != 0){
+            return Response.success(studentInfo.get(0).getStudentName() + "(学生)");
+        }
+        List<Teacher> teachers = teacherDao.findByUserId(userName);
+        if (teachers.size() != 0){
+            return Response.success(teachers.get(0).getUserName() + "(老师)");
+        }
+        return Response.success(userName + "（管理员）");
+    }
 }
 

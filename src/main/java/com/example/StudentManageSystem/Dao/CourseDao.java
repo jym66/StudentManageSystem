@@ -20,7 +20,7 @@ public interface CourseDao extends JpaRepository<Course,Integer> {
 
     List<Course> findByCourseNameLike(String CourseName);
 
-    Course findByCourseId(String CourseName);
+    Course findByCourseName(String CourseName);
 
 //    void updateCourse(Course course);
 

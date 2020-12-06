@@ -29,7 +29,12 @@ public class LoginController {
     }
     @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
     public Response forgetPassword(String userName,String NewPassword){
-        return loginService.forgetPassword(userName,NewPassword);
+        return loginService.forgetPassword(NewPassword);
     }
+    @RequestMapping(value = "/getSelfInfo",method = RequestMethod.POST)
+    public Response getSelfInfo(){
+        return loginService.getSelfInfo();
+    }
+
 
 }
