@@ -22,6 +22,8 @@ public interface CourseDao extends JpaRepository<Course,Integer> {
 
     Course findByCourseName(String CourseName);
 
+    Course findByCourseId(String CourseName);
+
 //    void updateCourse(Course course);
 
     @Query(value = "select * from Student.course where course_college=:courseName",nativeQuery = true)

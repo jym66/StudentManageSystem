@@ -18,7 +18,7 @@ public class CourseService {
     StudentService studentService;
 
     public Response addCourse(Course course){
-        if (checkCourseIsNull(course.getCourseId())){
+        if (checkCourseIsNullById(course.getCourseId())){
             return Response.fail("课程已存在");
         }
         courseDao.save(course);
@@ -45,7 +45,11 @@ public class CourseService {
         return courseDao.findByCourseName(courseName) != null;
     }
 
-//    查询该学院课程表
+    private boolean  checkCourseIsNullById(String courseId){
+        return courseDao.findByCourseId(courseId) != null;
+    }
+
+//    查询课程表(管理员)
     public Response getCourseByCollege(){
         StudentInfo studentInfo = studentService.getStudent();
         if (studentInfo == null){
@@ -53,8 +57,15 @@ public class CourseService {
         }
         return Response.success(courseDao.getCourseByCollege(studentInfo.getCollage()));
     }
+//    查询该学院课程表(学生)
+    public Response getStudentCourse(){
+        StudentInfo studentInfo = studentService.getStudent();
+        if (studentInfo == null){
+            return Response.success(getAllCourse());
+        }
+        return Response.success(courseDao.getCourseByCollege(studentInfo.getCollage()));
+    }
     private List<Course> getAllCourse(){
-        System.out.println(courseDao.findAll());
         return courseDao.findAll();
     }
 }

@@ -41,4 +41,9 @@ public class CourseSelectController {
     public  Response getCourseByCollege(){
         return courseService.getCourseByCollege();
     }
+
+    @RequestMapping(value = "/getStudentCourse",method = RequestMethod.POST)
+    public  Response getStudentCourse(){
+        return courseService.getStudentCourse();
+    }
 }
