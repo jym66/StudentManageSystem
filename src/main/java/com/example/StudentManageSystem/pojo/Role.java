@@ -30,6 +30,18 @@ public class Role {
     @Column(name = "icon")
     private String icon;
 
+    public String getShowUser() {
+        return showUser;
+    }
+
+    public void setShowUser(String showUser) {
+        this.showUser = showUser;
+    }
+
+    //    表示该菜单针对什么用户显示
+    @Column(name = "showUser")
+    private String showUser;
+
     public String getIcon() {
         return icon;
     }

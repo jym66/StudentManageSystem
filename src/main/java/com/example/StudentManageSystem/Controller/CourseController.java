@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+//课程类的增删改查
 @RestController
 @Validated
-public class CourseSelectController {
+public class CourseController {
     @Autowired
     CourseService courseService;
     @RequestMapping(value = "/addCourse",method = RequestMethod.POST)
@@ -46,4 +47,9 @@ public class CourseSelectController {
     public  Response getStudentCourse(){
         return courseService.getStudentCourse();
     }
+
+
+
+
+
 }
