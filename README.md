@@ -2,9 +2,9 @@
 ## 这个项目是为了学习SpringBoot而开发的一个练手项目，如果对你有帮助记得点个star哦！！！😊
 
 # 2.使用技术
-* web框架Springboot
+* web框架Springboot2.3.5
 
-* 数据库 Mysql,Redis
+* 数据库 Mysql 5.7.32,Redis4.0.9
 
 * 前端框架 Vue,Element
 
@@ -12,7 +12,7 @@
 ### 1、运行环境和所需工具
 * 编译器：IntelliJ IDEA
 * 项目构建工具：Maven
-* 数据库：Mysql 5.7.32,Redis4.0.9
+* 数据库：Mysql ,Redis
 * JDK版本：jdk1.8
 ### 2.初始化项目
 * 在你的Mysql中，创建一个数据库名称为 Student 的数据库，并导入 dump.sql 文件.
