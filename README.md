@@ -4,7 +4,7 @@
 # 2.使用技术
 * web框架Springboot2.3.5
 
-* 数据库 Mysql 5.7.32,Redis4.0.9
+* 数据库 Mysql 5.7.32  Redis4.0.9
 
 * 前端框架 Vue,Element
 
