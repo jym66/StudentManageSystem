@@ -19,17 +19,20 @@ public class SelectCourseController {
     @Autowired
     SelectCourseService selectCourseService;
     @RequestMapping(value = "/getSelectCourse",method = RequestMethod.POST)
+//    获取选课列表
     public Response getSelectCourse(){
         return selectCourseService.getSelectCourse();
     }
 
     @RequestMapping(value = "/SelectCourse",method = RequestMethod.POST)
+//    选课
     public Response SelectCourse(@Valid @NotBlank(message = "课程Id不能为空") String courseId){
         return selectCourseService.SelectCourse(courseId);
     }
 
 
     @RequestMapping(value = "/deleteSelectCourse",method = RequestMethod.POST)
+//    删除选课
     public Response deleteCourse(@Valid @NotBlank(message = "课程Id不能为空")String courseId){
         return selectCourseService.deleteCourse(courseId);
     }

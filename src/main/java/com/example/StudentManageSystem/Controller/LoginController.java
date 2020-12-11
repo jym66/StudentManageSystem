@@ -20,18 +20,22 @@ public class LoginController {
     @Autowired
     private LoginService loginService ;
     @RequestMapping(value = "/login",method = RequestMethod.POST)
+//    登录
     public Response login(@Valid LoginInfo loginInfo){
         return loginService.checkLoginInfo(loginInfo);
     }
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
+//    登出
     public Response logout(){
         return loginService.logout();
     }
     @RequestMapping(value = "/forgetPassword",method = RequestMethod.POST)
+//    忘记密码
     public Response forgetPassword(String userName,String NewPassword){
         return loginService.forgetPassword(NewPassword);
     }
     @RequestMapping(value = "/getSelfInfo",method = RequestMethod.POST)
+//    获取自己的信息
     public Response getSelfInfo(){
         return loginService.getSelfInfo();
     }

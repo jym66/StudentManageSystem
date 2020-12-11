@@ -20,7 +20,8 @@ public class Menu {
 
     @Resource
     HttpServletRequest request;
-    @RequestMapping(value = "getmenu",method = RequestMethod.POST)
+    @RequestMapping(value = "/getmenu",method = RequestMethod.POST)
+//    获取菜单
     public Response getMenu(){
         String token = request.getHeader("Token_id");
         String username = TokenUtil.findUserNameByToken(token);

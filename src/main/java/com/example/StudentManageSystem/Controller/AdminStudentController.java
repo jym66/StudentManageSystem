@@ -23,35 +23,42 @@ import javax.validation.constraints.NotBlank;
 public class AdminStudentController {
     @Autowired
     private StudentService studentService;
-    @RequestMapping(value = "getInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/getInfo",method = RequestMethod.POST)
+//  获取学生信息
     public Response getStudentInfo(@NotBlank(message = "学号不能为空") String studentId){
         return studentService.getStudentInfo(studentId);
     }
 
-    @RequestMapping(value = "addStudent",method = RequestMethod.POST)
+    @RequestMapping(value = "/addStudent",method = RequestMethod.POST)
+//    添加学生
     public Response addStudent(@Valid StudentInfo studentInfo){
         return studentService.addStudent(studentInfo);
     }
 
-    @RequestMapping(value = "deleteStudent",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteStudent",method = RequestMethod.POST)
+//    删除学生
     public Response deleteStudentByStudentId(@NotBlank(message = "学号不能为空")String studentId){
         return studentService.deleteStudentByStudentID(studentId);
     }
-    @RequestMapping(value = "getAllStudentInfo",method = RequestMethod.POST)
+    @RequestMapping(value = "/getAllStudentInfo",method = RequestMethod.POST)
+//    获取全部学生信息
     public Response getAllStudentInfo(int page,int limit){
         return studentService.getAllStudentInfo(page,limit);
     }
     @RequestMapping(value = "/getCount",method = RequestMethod.POST)
+//    获取学生数量
     public Response getCount(){
         return studentService.getCount();
     }
 
     @RequestMapping(value = "/updateStudent",method = RequestMethod.POST)
+//    修改学生信息
     public Response updateStudent(@Valid StudentInfo studentInfo){
         return studentService.updateStudent(studentInfo);
     }
 
     @RequestMapping(value = "/getNotice",method = RequestMethod.POST)
+//    发布班级通知(老师)
     public Response getNotice(){
         return studentService.getNotice();
     }
