@@ -12,7 +12,7 @@
 ### 1、运行环境和所需工具
 * 编译器：IntelliJ IDEA
 * 项目构建工具：Maven
-* 数据库：Mysql
+* 数据库：Mysql 5.7.32,Redis4.0.9
 * JDK版本：jdk1.8
 ### 2.初始化项目
 * 在你的Mysql中，创建一个数据库名称为 Student 的数据库，并导入 dump.sql 文件.
