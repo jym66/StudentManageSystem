@@ -3,6 +3,7 @@ package com.example.StudentManageSystem.Exception;
 //import com.auth0.jwt.exceptions.SignatureVerificationException;
 //import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.StudentManageSystem.pojo.Response;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,13 +31,4 @@ public class GlobalExceptionHandler {
     public Response handleRuntimeException(RuntimeException e){
         return Response.fail(e.getMessage());
     }
-//    @ExceptionHandler(TokenExpiredException.class)
-//    public Response handleTokenExpiredException(){
-//        return Response.fail("Token过期,请重新登录");
-//    }
-//    @ExceptionHandler({SignatureVerificationException.class,IllegalArgumentException.class})
-//    public Response handleSignatureVerificationException(){
-//        return Response.fail("Token错误");
-//    }
-
 }

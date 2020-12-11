@@ -1,7 +1,6 @@
 package com.example.StudentManageSystem.pojo;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 
 

@@ -46,4 +46,24 @@ public class TeacherController {
         return teacherService.updateTeacher(teacher);
     }
 
+//    发布班级通知
+    @RequestMapping(value = "/sendClassNotice",method = RequestMethod.POST)
+    public Response ReleaseClassNotice(@NotBlank(message = "请不要发布空消息") String message){
+        return teacherService.ReleaseClassNotice(message);
+    }
+
+    @RequestMapping(value = "/getAllStudentByClassName",method = RequestMethod.POST)
+    public Response getStudent(int page ,int limit){
+        return teacherService.getStudent(page,limit);
+    }
+
+    @RequestMapping(value = "/getStudentCountByClassName",method = RequestMethod.POST)
+    public Response getStudentCountByClassName(){
+        return teacherService.getStudentCountByClassName();
+    }
+
+    @RequestMapping(value = "/getStudentByClassName",method = RequestMethod.POST)
+    public Response getStudentByClassName(@NotBlank(message = "学号不允许为空") String userId){
+        return teacherService.getStudentById(userId);
+    }
 }

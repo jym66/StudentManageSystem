@@ -10,7 +10,7 @@ public class college {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank(message = "学院名不能为空")
-    @Column(name = "college_name")
+    @Column(name = "college_name",unique = true)
     private String collegeName;
 
 
@@ -22,4 +22,10 @@ public class college {
         this.collegeName = collegeName;
     }
 
+    public college() {
+    }
+
+    public college(@NotBlank(message = "学院名不能为空") String collegeName) {
+        this.collegeName = collegeName;
+    }
 }

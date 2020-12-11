@@ -1,5 +1,6 @@
 package com.example.StudentManageSystem.Service;
 
+import com.example.StudentManageSystem.Dao.NoticeDao;
 import com.example.StudentManageSystem.Dao.StudentInfoDao;
 import com.example.StudentManageSystem.Util.TokenUtil;
 import com.example.StudentManageSystem.pojo.Response;
@@ -27,6 +28,9 @@ public class StudentService {
     LoginService loginService;
     @Resource
     HttpServletRequest request;
+
+    @Autowired
+    NoticeDao noticeDao;
     public Response getStudentInfo(String studentId){
         return Response.success(studentInfoDao.getByStudentId(studentId));
     }
@@ -76,7 +80,6 @@ public class StudentService {
         }
         return  studentInfoDao.getByStudentId(userId).get(0);
     }
-
     public Response updateStudent(StudentInfo studentInfo){
         if (studentInfoDao.getByStudentId((studentInfo.getStudentId())).size() != 0){
             studentInfoDao.save(studentInfo);
@@ -85,4 +88,11 @@ public class StudentService {
         return Response.fail("更新信息失败");
     }
 
+//    获取班级通知
+    public Response getNotice(){
+        String token = request.getHeader("Token_id");
+        String userId = TokenUtil.findUserNameByToken(token);
+        String className = studentInfoDao.getByStudentId(userId).get(0).getClassName();
+        return Response.success(noticeDao.findByClassName(className));
+    }
 }

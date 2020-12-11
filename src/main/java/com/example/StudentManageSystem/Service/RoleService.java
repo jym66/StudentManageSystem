@@ -34,14 +34,14 @@ public class RoleService {
         List<Role> AllMenu = roleDao.getMenu(allow);
         List<Role> menus = new ArrayList<>();
         for (Role role : AllMenu) {
-            if (role.getUrl() == null) {
+            if (role.getUrl() == null && Objects.equals(role.getShowUser(), getCurrUser(allow)) || Objects.equals(role.getShowUser(), "all")) {
                 menus.add(role);
             }
         }
 
         return Response.success(getChildMenus(menus,AllMenu,allow));
     }
-    private List<Role> getChildMenus(List<Role> OneMenu,List<Role> AllMenu,String allow){
+    private String getCurrUser(String allow){
         String student = "student";
         String admin = "admin";
         String str = "teacher";
@@ -49,9 +49,11 @@ public class RoleService {
             str = admin;
         }
         if (Objects.equals(allow, "1")){
-             str = student;
+            str = student;
         }
-
+        return str;
+    }
+    private List<Role> getChildMenus(List<Role> OneMenu,List<Role> AllMenu,String allow){
         for (Role oneMenu : OneMenu) {
             //子菜单先用ArrayList 存起来 ，如果直接添加会覆盖掉原来的
 //            在for 循环里创建动态数组 达到每次清空的目的
@@ -60,13 +62,14 @@ public class RoleService {
 //                不等于null 说明是一个子菜单
                 if (allMenu.getParentId() != null) {
 //                   查找子菜单对应的父菜单
-                    if (Objects.equals(allMenu.getParentId(), String.valueOf(oneMenu.getId())) && Objects.equals(allMenu.getShowUser(),str)) {
+                    if (Objects.equals(allMenu.getParentId(), String.valueOf(oneMenu.getId())) && Objects.equals(allMenu.getShowUser(),getCurrUser(allow))) {
                          ChildMenus.add(allMenu);
                     }
                 }
-            }
+
 //           执行完内层for循环说明当前菜单掉子菜单都找到了,添加
             oneMenu.setChildMenus(ChildMenus);
+            }
         }
         return OneMenu;
         }

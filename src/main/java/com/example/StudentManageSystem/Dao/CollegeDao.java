@@ -4,5 +4,6 @@ import com.example.StudentManageSystem.pojo.college;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CollegeDao extends JpaRepository<college,Integer> {
+    college findByCollegeName(String collageName);
 
 }

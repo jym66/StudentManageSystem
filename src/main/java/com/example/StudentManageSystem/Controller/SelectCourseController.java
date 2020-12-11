@@ -33,4 +33,6 @@ public class SelectCourseController {
     public Response deleteCourse(@Valid @NotBlank(message = "课程Id不能为空")String courseId){
         return selectCourseService.deleteCourse(courseId);
     }
+
+
 }

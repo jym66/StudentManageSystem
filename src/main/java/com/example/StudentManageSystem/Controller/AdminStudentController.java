@@ -51,6 +51,10 @@ public class AdminStudentController {
         return studentService.updateStudent(studentInfo);
     }
 
+    @RequestMapping(value = "/getNotice",method = RequestMethod.POST)
+    public Response getNotice(){
+        return studentService.getNotice();
+    }
 
 
 }

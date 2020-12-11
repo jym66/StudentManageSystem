@@ -1,12 +1,17 @@
 package com.example.StudentManageSystem.Service;
 
+import com.example.StudentManageSystem.Dao.NoticeDao;
+import com.example.StudentManageSystem.Dao.StudentInfoDao;
 import com.example.StudentManageSystem.Dao.TeacherDao;
+import com.example.StudentManageSystem.Util.TokenUtil;
+import com.example.StudentManageSystem.pojo.Notice;
 import com.example.StudentManageSystem.pojo.Response;
-import com.example.StudentManageSystem.pojo.StudentInfo;
 import com.example.StudentManageSystem.pojo.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -14,6 +19,12 @@ public class TeacherService {
 
     @Autowired
     TeacherDao teacherDao;
+    @Resource
+    HttpServletRequest request;
+    @Autowired
+    StudentInfoDao studentInfoDao;
+    @Autowired
+    NoticeDao noticeDao;
     public Response addTeacher(Teacher teacher){
         if (teacherDao.findByUserId(teacher.getUserId()).size() != 0){
             return Response.fail("老师已存在");
@@ -52,5 +63,33 @@ public class TeacherService {
             return Response.success("更新信息成功");
         }
         return Response.fail("更新信息失败");
+    }
+
+    private List<Teacher> getTeacher(){
+//        获取老师实体
+        String token = request.getHeader("Token_id");
+        String userId = TokenUtil.findUserNameByToken(token);
+        return teacherDao.findByUserId(userId);
+    }
+    public Response ReleaseClassNotice(String message){
+//        首先查询老师所带班级
+        String className = getTeacher().get(0).getClassName();
+        noticeDao.save(new Notice(className,message));
+        return Response.success("发布通知成功");
+    }
+//    获取老师自己班的学生
+    public Response getStudent(int page,int limit){
+        if (limit > 70){ limit = 70;}
+        String className = getTeacher().get(0).getClassName();
+        return Response.success(studentInfoDao.findByClassName(page,limit,className));
+    }
+
+    public Response getStudentById(String userId){
+//        通过学号查询指定班级学生
+        return Response.success(studentInfoDao.getStudentIdByClassName(userId,getTeacher().get(0).getClassName()));
+    }
+
+    public Response getStudentCountByClassName() {
+        return Response.success(studentInfoDao.getStudentCountByClassName(getTeacher().get(0).getClassName()));
     }
 }
