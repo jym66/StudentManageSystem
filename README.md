@@ -17,7 +17,7 @@
 ### 2.初始化项目
 * 在你的Mysql中，创建一个数据库名称为 Student 的数据库，并导入 dump.sql 文件.
 * 进入src/main/resources修改application.properties配置文件,把Redis,Mysql的连接地址和密码改成自己的。
-* 在IDEA导入项目
+* 在IDEA导入项目，选择Maven项目选项
 * 登录账户
   * 管理员账户：admin
   * 老师账户：用管理员登录查看工号
