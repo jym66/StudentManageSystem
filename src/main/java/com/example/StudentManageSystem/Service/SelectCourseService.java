@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -25,14 +27,14 @@ public class SelectCourseService {
     CourseDao courseDao;
     @Autowired
     SelectCourseDao selectCourseDao;
-    private List<selectCourse> getSelectCourseIdByStudentId(){
+    private List<selectCourse> getSelectCourseId(){
         String token = request.getHeader("Token_id");
         String userId = TokenUtil.findUserNameByToken(token);
         return selectCourseDao.findByStudentId(userId);
     }
 
     public Response getSelectCourse(){
-        List<selectCourse> courseId = getSelectCourseIdByStudentId();
+        List<selectCourse> courseId = getSelectCourseId();
         List<Course> courseList = new ArrayList<>();
         for (selectCourse Course : courseId) {
             courseList.add(courseDao.findByCourseId(Course.getCourseID()));
@@ -58,5 +60,18 @@ public class SelectCourseService {
     public Response deleteCourse(String courseId){
         selectCourseDao.deleteByCourseID(courseId);
         return Response.success("取消成功！");
+    }
+
+    public  Response getSelectCourseIdByStudentId(String StudentId){
+        List<selectCourse> selectCourses = selectCourseDao.findByStudentId(StudentId);
+        List< Map<String,String>> list = new ArrayList<>();
+        for (selectCourse selectCourse : selectCourses) {
+            Map<String,String> stringMap = new HashMap<>();
+            stringMap.put("courseName",courseDao.findByCourseId(selectCourse.getCourseID()).getCourseName());
+            stringMap.put("courseId",courseDao.findByCourseId(selectCourse.getCourseID()).getCourseId());
+            stringMap.put("studentId",StudentId);
+            list.add(stringMap);
+        }
+        return Response.success(list);
     }
 }
